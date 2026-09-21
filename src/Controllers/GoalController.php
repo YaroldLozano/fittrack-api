@@ -37,4 +37,14 @@ class GoalController
             Response::error($e->getMessage(), 404);
         }
     }
+
+    public function destroy(Request $request): void
+    {
+        try {
+            $this->goals->delete((int) $request->userId, (int) $request->params['id']);
+            Response::success(['message' => 'Objetivo eliminado']);
+        } catch (InvalidArgumentException $e) {
+            Response::error($e->getMessage(), 404);
+        }
+    }
 }

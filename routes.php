@@ -384,3 +384,4 @@ $goalController = new GoalController($goalService);
 $router->get('/goals', [$goalController, 'index'], [$authMiddleware]);
 $router->post('/goals', [$goalController, 'store'], [$authMiddleware]);
 $router->put('/goals/:id', [$goalController, 'update'], [$authMiddleware]);
+$router->delete('/goals/:id', [$goalController, 'destroy'], [$authMiddleware]);

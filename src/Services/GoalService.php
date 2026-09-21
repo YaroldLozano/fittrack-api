@@ -53,6 +53,14 @@ class GoalService
         return $this->withProgress($this->goals->findOwnedBy($userId, $id));
     }
 
+    public function delete(int $userId, int $id): void
+    {
+        if ($this->goals->findOwnedBy($userId, $id) === null) {
+            throw new InvalidArgumentException('Objetivo no encontrado');
+        }
+        $this->goals->deleteOwned($userId, $id);
+    }
+
     /** Called after a set is logged: updates any in-progress "lift X kg" goals for that exercise. */
     public function onSetLogged(int $userId, int $exerciseId, float $weight): void
     {

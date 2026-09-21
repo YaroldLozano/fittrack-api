@@ -65,6 +65,12 @@ class GoalModel
         $stmt->execute($params);
     }
 
+    public function deleteOwned(int $userId, int $id): void
+    {
+        $stmt = $this->db->prepare('DELETE FROM goals WHERE id = :id AND user_id = :user_id');
+        $stmt->execute(['id' => $id, 'user_id' => $userId]);
+    }
+
     public function updateProgress(int $goalId, float $currentValue, bool $completed): void
     {
         $stmt = $this->db->prepare(
