@@ -5,7 +5,8 @@ API REST en PHP puro (sin framework) que sirve de backend a la app
 
 Repositorio hermano del frontend: ver el proyecto Ionic/Angular y su
 documentación completa (objetivo de la app, modelo de datos, capturas,
-evidencia de uso de IA) en `App/README.md`.
+evidencia de uso de IA) en
+[fittrack-app](https://github.com/YaroldLozano/fittrack-app).
 
 ## Estructura
 
@@ -27,7 +28,8 @@ src/
 1. Requiere PHP 8+, MySQL/MariaDB y Composer (p. ej. vía XAMPP).
 2. `composer install` (instala `firebase/php-jwt` y `phpmailer/phpmailer`).
 3. Crear la base de datos `Yarold` con el esquema descrito en
-   `App/docs/modelo-datos.md`.
+   [`docs/modelo-datos.md`](https://github.com/YaroldLozano/fittrack-app/blob/master/docs/modelo-datos.md)
+   del repo del frontend.
 4. Copiar `.env.example` a `.env` y completar:
    - Credenciales de MySQL (`DB_*`)
    - `JWT_SECRET` (cualquier cadena larga aleatoria)
