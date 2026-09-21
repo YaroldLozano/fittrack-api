@@ -1,0 +1,14 @@
+{
+  "name": "yarold/fitness-api",
+  "description": "REST API backend for the Fitness App (PHP, no framework)",
+  "require": {
+    "php": ">=8.0",
+    "firebase/php-jwt": "^7.1",
+    "phpmailer/phpmailer": "^7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}

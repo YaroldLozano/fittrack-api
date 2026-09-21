@@ -1,0 +1,15 @@
+# Dependencias de Composer (se regeneran con `composer install` a partir de composer.lock)
+/vendor
+
+# Variables de entorno reales (contienen credenciales de BD, JWT_SECRET, SMTP y ANTHROPIC_API_KEY)
+.env
+
+# Logs / temporales
+*.log
+
+# IDEs y sistema
+.idea/
+.vscode/*
+!.vscode/settings.json
+.DS_Store
+Thumbs.db

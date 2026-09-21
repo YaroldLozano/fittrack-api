@@ -1,0 +1,26 @@
+RewriteEngine On
+
+# Pass the Authorization header through to PHP (some Apache/mod_php setups strip it)
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Route everything through the front controller
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+<Files ".env">
+    Require all denied
+</Files>
+
+<Files ".env.example">
+    Require all denied
+</Files>
+
+<Files "composer.json">
+    Require all denied
+</Files>
+
+<Files "composer.lock">
+    Require all denied
+</Files>
