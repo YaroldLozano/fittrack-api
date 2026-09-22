@@ -23,6 +23,24 @@ class RoutineExerciseModel
         return $stmt->fetchAll();
     }
 
+    /** @param int[] $routineDayIds */
+    public function findByDays(array $routineDayIds): array
+    {
+        if (empty($routineDayIds)) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($routineDayIds), '?'));
+        $stmt = $this->db->prepare(
+            "SELECT re.*, e.name AS exercise_name
+             FROM routine_exercises re
+             JOIN exercises e ON e.id = re.exercise_id
+             WHERE re.routine_day_id IN ($placeholders)
+             ORDER BY re.routine_day_id, re.order_index"
+        );
+        $stmt->execute(array_values($routineDayIds));
+        return $stmt->fetchAll();
+    }
+
     public function create(int $routineDayId, array $exercise, int $orderIndex): int
     {
         $stmt = $this->db->prepare(

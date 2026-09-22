@@ -152,8 +152,9 @@ class AIService
         }
 
         return [
-            'name' => (string) ($toolUse['name'] ?? 'Entrenamiento sugerido'),
-            'note' => (string) ($toolUse['note'] ?? ''),
+            // Recortado por si la IA devuelve texto libre inesperadamente largo.
+            'name' => mb_substr((string) ($toolUse['name'] ?? 'Entrenamiento sugerido'), 0, 120),
+            'note' => mb_substr((string) ($toolUse['note'] ?? ''), 0, 500),
             'exercises' => $validExercises,
         ];
     }

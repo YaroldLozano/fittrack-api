@@ -21,7 +21,35 @@ class RoutineService
     public function list(int $userId): array
     {
         $routines = $this->routines->findAllForUser($userId);
-        return array_map(fn ($routine) => $this->attachDays($routine), $routines);
+        if (empty($routines)) {
+            return [];
+        }
+
+        // Una sola consulta para todos los días y otra para todos los ejercicios,
+        // en vez de una por rutina/día (evita N+1 al listar varias rutinas).
+        $routineIds = array_map(fn ($r) => (int) $r['id'], $routines);
+        $days = $this->routineDays->findByRoutines($routineIds);
+
+        $dayIds = array_map(fn ($d) => (int) $d['id'], $days);
+        $exercises = $this->routineExercises->findByDays($dayIds);
+
+        $exercisesByDay = [];
+        foreach ($exercises as $exercise) {
+            $exercisesByDay[(int) $exercise['routine_day_id']][] = $exercise;
+        }
+
+        $daysByRoutine = [];
+        foreach ($days as $day) {
+            $day['exercises'] = $exercisesByDay[(int) $day['id']] ?? [];
+            $daysByRoutine[(int) $day['routine_id']][] = $day;
+        }
+
+        foreach ($routines as &$routine) {
+            $routine['days'] = $daysByRoutine[(int) $routine['id']] ?? [];
+        }
+        unset($routine);
+
+        return $routines;
     }
 
     public function get(int $userId, int $id): array

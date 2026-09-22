@@ -37,6 +37,12 @@ return [
         'secret' => getenv('JWT_SECRET') ?: '',
         'ttl' => (int) (getenv('JWT_TTL_SECONDS') ?: 604800),
     ],
+    'cors' => [
+        // Orígenes desde los que el navegador puede llamar a la API (ionic serve,
+        // build de Capacitor, etc.). '*' deshabilita la lista y permite cualquiera.
+        'allowedOrigins' => array_filter(array_map('trim', explode(',', getenv('CORS_ALLOWED_ORIGINS')
+            ?: 'http://localhost:8100,http://localhost,capacitor://localhost,ionic://localhost'))),
+    ],
     'ai' => [
         'anthropicApiKey' => getenv('ANTHROPIC_API_KEY') ?: '',
         'anthropicModel' => getenv('ANTHROPIC_MODEL') ?: 'claude-sonnet-5',

@@ -19,6 +19,21 @@ class WorkoutSetModel
         return $stmt->fetchAll();
     }
 
+    /** @param int[] $sessionExerciseIds */
+    public function findBySessionExercises(array $sessionExerciseIds): array
+    {
+        if (empty($sessionExerciseIds)) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($sessionExerciseIds), '?'));
+        $stmt = $this->db->prepare(
+            "SELECT * FROM workout_sets WHERE session_exercise_id IN ($placeholders)
+             ORDER BY session_exercise_id, set_number"
+        );
+        $stmt->execute(array_values($sessionExerciseIds));
+        return $stmt->fetchAll();
+    }
+
     /** Best (max) weight ever lifted by this user on this exercise, before the given moment. */
     public function maxWeightBefore(int $userId, int $exerciseId): ?float
     {

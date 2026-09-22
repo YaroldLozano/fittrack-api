@@ -19,6 +19,21 @@ class RoutineDayModel
         return $stmt->fetchAll();
     }
 
+    /** @param int[] $routineIds */
+    public function findByRoutines(array $routineIds): array
+    {
+        if (empty($routineIds)) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($routineIds), '?'));
+        $stmt = $this->db->prepare(
+            "SELECT * FROM routine_days WHERE routine_id IN ($placeholders)
+             ORDER BY routine_id, order_index, day_of_week"
+        );
+        $stmt->execute(array_values($routineIds));
+        return $stmt->fetchAll();
+    }
+
     public function deleteByRoutine(int $routineId): void
     {
         $stmt = $this->db->prepare('DELETE FROM routine_days WHERE routine_id = :routine_id');

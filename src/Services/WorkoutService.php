@@ -36,8 +36,18 @@ class WorkoutService
         }
 
         $exercises = $this->sessionExercises->findBySession($id);
-        $session['exercises'] = array_map(function ($ex) {
-            $ex['sets'] = $this->sets->findBySessionExercise((int) $ex['id']);
+
+        // Una sola consulta para los sets de todos los ejercicios de la sesión,
+        // en vez de una por ejercicio (evita N+1 en entrenamientos con varios ejercicios).
+        $exerciseIds = array_map(fn ($ex) => (int) $ex['id'], $exercises);
+        $sets = $this->sets->findBySessionExercises($exerciseIds);
+        $setsByExercise = [];
+        foreach ($sets as $set) {
+            $setsByExercise[(int) $set['session_exercise_id']][] = $set;
+        }
+
+        $session['exercises'] = array_map(function ($ex) use ($setsByExercise) {
+            $ex['sets'] = $setsByExercise[(int) $ex['id']] ?? [];
             return $ex;
         }, $exercises);
 
