@@ -7,6 +7,7 @@ use App\Controllers\BodyMetricController;
 use App\Controllers\ChallengeController;
 use App\Controllers\ChatController;
 use App\Controllers\ExerciseController;
+use App\Controllers\ExternalExerciseController;
 use App\Controllers\MediaController;
 use App\Controllers\NotificationController;
 use App\Controllers\PostController;
@@ -66,6 +67,7 @@ use App\Services\BodyMetricService;
 use App\Services\ChallengeService;
 use App\Services\ChatService;
 use App\Services\ExerciseService;
+use App\Services\ExternalExerciseService;
 use App\Services\FriendService;
 use App\Services\GamificationService;
 use App\Services\GoalService;
@@ -322,6 +324,11 @@ $router->get('/exercises', [$exerciseController, 'index'], [$authMiddleware]);
 $router->post('/exercises', [$exerciseController, 'store'], [$authMiddleware]);
 $router->put('/exercises/:id', [$exerciseController, 'update'], [$authMiddleware]);
 $router->delete('/exercises/:id', [$exerciseController, 'destroy'], [$authMiddleware]);
+
+// --- Ejercicios externos (wger.de) — explorar y luego "importar" al catálogo propio ---
+$externalExerciseController = new ExternalExerciseController(new ExternalExerciseService());
+$router->get('/exercises/external/categories', [$externalExerciseController, 'categories'], [$authMiddleware]);
+$router->get('/exercises/external', [$externalExerciseController, 'index'], [$authMiddleware]);
 
 // --- IA: ajustar el entrenamiento del día a partir de una petición en lenguaje natural ---
 $aiController = new AIController(new AIService($exerciseModel, $config['ai']['anthropicApiKey'], $config['ai']['anthropicModel']));

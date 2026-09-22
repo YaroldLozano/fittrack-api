@@ -44,4 +44,7 @@ Ver `routes.php` para el listado completo. Agrupados por dominio: `/auth`,
 `/exercises`, `/routines`, `/workouts`, `/muscle-groups`, `/progress`,
 `/goals`, `/body-metrics`, `/friends`, `/posts`, `/stories`, `/messages`,
 `/notifications`, `/ranking`, `/challenges`, `/workouts/group`,
-`/achievements`, `/media`, y `/ai/suggest-workout` (herramienta de IA).
+`/achievements`, `/media`, `/ai/suggest-workout` (herramienta de IA), y
+`/exercises/external` (proxy a la API pública de
+[wger.de](https://wger.de) para explorar/importar ejercicios — ver
+`App/docs/api-externa-ejercicios.md`).
